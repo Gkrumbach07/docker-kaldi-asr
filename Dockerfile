@@ -8,10 +8,7 @@ ENV CPU_CORE 4
 
 RUN yum update -y
 
-RUN yum groups mark install "Development Tools" "System Tools"
-RUN yum groups mark convert "Development Tools" "System Tools"
-
-RUN yum groupinstall -y "Development Tools" "System Tools"
+RUN yum groupinstall -y development
 RUN  yum install -y \
     git bzip2 wget subversion which sox \
     gcc-c++ make automake autoconf zlib-devel atlas-static \
