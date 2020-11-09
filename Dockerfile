@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y  \
     python3 \
     python-pip \
     subversion \
+    unzip \
+    sox \
+    gfortran \
     wget \
     zlib1g-dev && \
     apt-get clean && \
@@ -24,6 +27,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y  \
 
 RUN mkdir -p /opt/kaldi && \
     git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
+    cd /opt/kaldi/tools/extras && \
+    ./install_mkl.sh && \
     cd /opt/kaldi/tools && \
     make -j${MAKE_JOBS} && \
     ./install_portaudio.sh && \
