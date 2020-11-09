@@ -1,7 +1,5 @@
 FROM registry.access.redhat.com/ubi8/ubi:8.1
-RUN microdnf install nodejs npm \
- && microdnf update \
- && microdnf clean all
+
 ARG MAKE_JOBS=1
 
 RUN yum update && yum install --no-install-recommends -y  \
