@@ -1,64 +1,33 @@
 FROM registry.access.redhat.com/ubi8/ubi:8.1
 
-ARG MAKE_JOBS=1
+#FROM centos:latest
 
-RUN curl https://raw.githubusercontent.com/dvershinin/apt-get-centos/master/apt-get.sh -o /usr/local/bin/apt-get && chmod 0755 /usr/local/bin/apt-get
+MAINTAINER sih4sing5hong5
 
-RUN apt-get update && apt-get install --no-install-recommends -y  \
-    autoconf \
-    automake \
-    bzip2 \
-    g++ \
-    git \
-    libatlas3-base \
-    libtool-bin \
-    make \
-    patch \
-    python2.7 \
-    python3 \
-    python-pip \
-    subversion \
-    unzip \
-    sox \
-    gfortran \
-    wget \
-    zlib1g-dev && \
-    apt-get clean && \
-    apt-get autoclean && \
-    apt-get autoremove -y
+ENV CPU_CORE 4
 
-RUN mkdir -p /opt/kaldi && \
-    git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
-    cd /opt/kaldi/tools/extras && \
-    ./install_mkl.sh && \
-    cd /opt/kaldi/tools && \
-    make -j${MAKE_JOBS} && \
-    ./install_portaudio.sh && \
-    cd /opt/kaldi/src && \
-    ./configure --shared && \
-    sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk && \
-    make -j${MAKE_JOBS} depend && \
-    make -j${MAKE_JOBS} checkversion && \
-    make -j${MAKE_JOBS} kaldi.mk && \
-    make -j${MAKE_JOBS} mklibdir && \
-    make -j${MAKE_JOBS} \
-	base \
-	decoder \
-	fstext \
-	nnet3 \
-	online2 \
-	util && \
-    cd /opt/kaldi && git log -n1 > current-git-commit.txt && \
-    rm -rf /opt/kaldi/.git && \
-    rm -rf /opt/kaldi/egs/ /opt/kaldi/windows/ /opt/kaldi/misc/ && \
-    find /opt/kaldi/src/ \
-	 -type f \
-	 -not -name '*.h' \
-	 -not -name '*.so' \
-	 -delete && \
-    find /opt/kaldi/tools/ \
-	 -type f \
-	 -not -name '*.h' \
-	 -not -name '*.so' \
-	 -not -name '*.so*' \
-	 -delete
+RUN yum update -y 
+RUN yum groupinstall -y "C Development Tools and Libraries" "Development Tools" "System Tools"
+RUN  yum install -y \
+    git bzip2 wget subversion which sox \
+    gcc-c++ make automake autoconf zlib-devel atlas-static \
+	 python
+
+## How To Install Python 3 and Set Up a Local Programming Environment on CentOS 7 | DigitalOcean
+## https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7
+RUN yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+RUN yum -y install python36u
+RUN ln -s /usr/bin/python3.6 /usr/bin/python3
+
+WORKDIR /usr/local/
+# Use the newest kaldi version
+RUN git clone https://github.com/kaldi-asr/kaldi.git
+
+
+WORKDIR /usr/local/kaldi/tools
+RUN extras/check_dependencies.sh
+RUN make -j $CPU_CORE
+
+
+WORKDIR /usr/local/kaldi/src
+RUN ./configure && make depend -j $CPU_CORE && make -j $CPU_CORE
