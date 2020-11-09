@@ -4,7 +4,7 @@ RUN microdnf install nodejs npm \
  && microdnf clean all
 ARG MAKE_JOBS=1
 
-RUN apt-get update && apt-get install --no-install-recommends -y  \
+RUN yum update && yum install --no-install-recommends -y  \
     autoconf \
     automake \
     bzip2 \
@@ -23,9 +23,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y  \
     gfortran \
     wget \
     zlib1g-dev && \
-    apt-get clean && \
-    apt-get autoclean && \
-    apt-get autoremove -y
+    yum clean && \
+    yum autoclean && \
+    yum autoremove -y
 
 RUN mkdir -p /opt/kaldi && \
     git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
