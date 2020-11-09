@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi8/ubi:8.1
 
 ARG MAKE_JOBS=1
 
-RUN yum -y update && yum install --no-install-recommends -y  \
+RUN yum -y update && yum install -y  \
     autoconf \
     automake \
     bzip2 \
