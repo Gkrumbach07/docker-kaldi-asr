@@ -2,7 +2,9 @@ FROM registry.access.redhat.com/ubi8/ubi:8.1
 
 ARG MAKE_JOBS=1
 
-RUN yum -y update && yum install -y  \
+RUN curl https://raw.githubusercontent.com/dvershinin/apt-get-centos/master/apt-get.sh -o /usr/local/bin/apt-get && chmod 0755 /usr/local/bin/apt-get
+
+RUN apt-get update && apt-get install --no-install-recommends -y  \
     autoconf \
     automake \
     bzip2 \
@@ -21,9 +23,9 @@ RUN yum -y update && yum install -y  \
     gfortran \
     wget \
     zlib1g-dev && \
-    yum clean && \
-    yum autoclean && \
-    yum autoremove -y
+    apt-get clean && \
+    apt-get autoclean && \
+    apt-get autoremove -y
 
 RUN mkdir -p /opt/kaldi && \
     git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
