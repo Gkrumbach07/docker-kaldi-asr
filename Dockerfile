@@ -1,6 +1,4 @@
-FROM centos:latest
-
-MAINTAINER sih4sing5hong5
+FROM registry.access.redhat.com/ubi8/ubi:8.1
 
 ENV CPU_CORE 4
 
