@@ -1,22 +1,15 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.1
+#FROM registry.access.redhat.com/ubi8/ubi:8.1
+FROM centos:latest
 
 ENV CPU_CORE 4
 
 RUN yum update -y 
-
-RUN yum group list ids
-
 RUN yum groupinstall -y "Development Tools" "System Tools"
 RUN  yum install -y \
-    git bzip2 wget subversion which sox \
+    git bzip2 wget subversion sox \
     gcc-c++ make automake autoconf zlib-devel atlas-static \
-	 python
+    python python3
 
-## How To Install Python 3 and Set Up a Local Programming Environment on CentOS 7 | DigitalOcean
-## https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7
-RUN yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-RUN yum -y install python36u
-RUN ln -s /usr/bin/python3.6 /usr/bin/python3
 
 WORKDIR /usr/local/
 # Use the newest kaldi version
@@ -24,9 +17,12 @@ RUN git clone https://github.com/kaldi-asr/kaldi.git
 
 
 WORKDIR /usr/local/kaldi/tools
+
 RUN extras/check_dependencies.sh
+# RUN yum groupinstall -y "System Tools"
 RUN make -j $CPU_CORE
 
+#    libatlas-dev libatlas-base-dev
 
 WORKDIR /usr/local/kaldi/src
 RUN ./configure && make depend -j $CPU_CORE && make -j $CPU_CORE
