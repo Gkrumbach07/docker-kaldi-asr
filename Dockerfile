@@ -8,7 +8,7 @@ RUN yum update -y
 
 RUN yum group list ids
 
-RUN yum groupinstall -y "C Development Tools and Libraries" "Development Tools" "System Tools"
+RUN yum groupinstall -y "Development Tools" "System Tools"
 RUN  yum install -y \
     git bzip2 wget subversion which sox \
     gcc-c++ make automake autoconf zlib-devel atlas-static \
