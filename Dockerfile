@@ -21,7 +21,7 @@ RUN extras/install_mkl.sh
 RUN extras/check_dependencies.sh
 # RUN yum groupinstall -y "System Tools"
 #RUN make -j $CPU_CORE
-RUN make CXX=g++-4.8
+RUN make
 
 #    libatlas-dev libatlas-base-dev
 
