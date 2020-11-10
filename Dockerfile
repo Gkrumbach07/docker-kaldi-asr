@@ -8,7 +8,7 @@ RUN yum groupinstall -y "Development Tools" "System Tools"
 RUN  yum install -y \
     git bzip2 wget subversion \
     gcc-c++ make automake autoconf zlib-devel python3 \
-    python27 sox gfortran
+    python27 sox gcc-gfortran
 
 WORKDIR /usr/local/
 # Use the newest kaldi version
