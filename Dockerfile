@@ -1,14 +1,11 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.1
-
-#FROM centos:latest
+FROM centos:latest
 
 MAINTAINER sih4sing5hong5
 
 ENV CPU_CORE 4
 
-RUN yum update -y
-
-RUN yum groupinstall -y development
+RUN yum update -y 
+RUN yum groupinstall -y "C Development Tools and Libraries" "Development Tools" "System Tools"
 RUN  yum install -y \
     git bzip2 wget subversion which sox \
     gcc-c++ make automake autoconf zlib-devel atlas-static \
