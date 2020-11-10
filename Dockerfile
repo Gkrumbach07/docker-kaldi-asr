@@ -6,9 +6,8 @@ ENV CPU_CORE 4
 RUN yum update -y 
 RUN yum groupinstall -y "Development Tools" "System Tools"
 RUN  yum install -y \
-    git bzip2 wget subversion sox \
-    gcc-c++ make automake autoconf zlib-devel atlas-static \
-    python python3
+    git bzip2 wget subversion \
+    gcc-c++ make automake autoconf zlib-devel python3
 
 
 WORKDIR /usr/local/
