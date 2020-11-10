@@ -1,5 +1,5 @@
 #FROM registry.access.redhat.com/ubi8/ubi:8.1
-FROM centos:latest
+FROM centos:7
 
 ENV CPU_CORE 4
 
@@ -9,7 +9,6 @@ RUN  yum install -y \
     git bzip2 wget subversion \
     gcc-c++ make automake autoconf zlib-devel python3 \
     python27 sox gfortran
-
 
 WORKDIR /usr/local/
 # Use the newest kaldi version
