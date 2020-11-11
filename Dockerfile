@@ -26,8 +26,8 @@ RUN make
 
 #    libatlas-dev libatlas-base-dev
 
+WORKDIR /usr/local/kaldi/src
 RUN gcc --version
 
-WORKDIR /usr/local/kaldi/src
 #RUN ./configure && make depend -j $CPU_CORE && make -j $CPU_CORE
 RUN ./configure && make depend && make
