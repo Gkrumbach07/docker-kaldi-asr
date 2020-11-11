@@ -20,10 +20,13 @@ WORKDIR /usr/local/kaldi/tools
 RUN extras/install_mkl.sh
 RUN extras/check_dependencies.sh
 # RUN yum groupinstall -y "System Tools"
-#RUN make -j $CPU_CORE
-RUN make
+RUN gcc --version
+RUN make -j $CPU_CORE
+#RUN make
 
 #    libatlas-dev libatlas-base-dev
+
+RUN gcc --version
 
 WORKDIR /usr/local/kaldi/src
 RUN ./configure && make depend -j $CPU_CORE && make -j $CPU_CORE
